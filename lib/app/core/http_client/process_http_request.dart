@@ -1,17 +1,14 @@
 import 'package:http/http.dart' as http;
 import 'package:http/retry.dart';
-import 'package:videoplayerapp/app/core/htttp_attrib_options.dart';
+import 'package:videoplayerapp/app/core/http_client/htttp_attrib_options.dart';
 
 class ProcessHttpRequest {
   Future<http.Response> processGetRequest(RetryClient httpClient,
       HttpClientAttributeOptions httpAttribOptions) async {
+    Uri uri = Uri.parse( httpAttribOptions.baseUrl + httpAttribOptions.url);
     return await httpClient
         .get(
-          Uri.https(
-            httpAttribOptions.baseUrl,
-            httpAttribOptions.url,
-            httpAttribOptions.param,
-          ),
+          uri,
           headers: httpAttribOptions.headers,
         )
         .timeout(

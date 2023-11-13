@@ -1,12 +1,12 @@
 class VideoElement {
     String videoTitle;
-    String videoThumbnail;
+    String? videoThumbnail;
     String videoUrl;
     String? videoDescription;
 
     VideoElement({
         required this.videoTitle,
-        required this.videoThumbnail,
+        this.videoThumbnail,
         required this.videoUrl,
         this.videoDescription,
     });
