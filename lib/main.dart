@@ -9,6 +9,7 @@ import 'app/routes/app_pages.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // MobileAds.instance.initialize();
   final internetConnectivity = InternetConnectivity();
   await internetConnectivity.initialize();
   await Hive.initFlutter();
