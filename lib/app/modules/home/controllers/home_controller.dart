@@ -43,6 +43,7 @@ class HomeController extends GetxController {
       //caching the data
       cacheStorageService.saveData(Keys.videoCacheKey, result);
       isLoading.value = false;
+      isError.value = false;
     } on HttpException catch (ex) {
       HttpException(HandleHttpException().handleHttpResponse(ex));
       isLoading.value = false;

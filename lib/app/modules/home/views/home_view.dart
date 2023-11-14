@@ -1,3 +1,4 @@
+import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:videoplayerapp/app/modules/home/views/widgets/video_card.dart';
@@ -21,7 +22,13 @@ class HomeView extends GetView<HomeController> {
           backgroundColor: GlobalColors.appBarColor,
           title: const Text('Vamos Videos'),
           actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.star_outline)),
+            IconButton(
+                onPressed: () async {
+                  await LaunchApp.openApp(
+                    androidPackageName: 'net.pulsesecure.pulsesecure',
+                  );
+                },
+                icon: const Icon(Icons.star_outline)),
             IconButton(
               onPressed: () {
                 share();
@@ -33,20 +40,21 @@ class HomeView extends GetView<HomeController> {
         body: controller.isLoading.value == true
             ? const Center(
                 child: CircularProgressIndicator(),
-                
               )
             : controller.isError.value == true
                 ? CustomErrorWidget(
                     errorMessage: "Unable to load videos",
                     onRefresh: () {
-                      return controller.fetchVideos();
+                      return controller.fetchVideos().then((_) {
+                        controller.update();
+                      });
                     },
                   )
                 : Card(
-                  color:Color.fromARGB(255, 247, 247, 247),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: RefreshIndicator(
+                    color: const Color.fromARGB(255, 247, 247, 247),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: RefreshIndicator(
                         onRefresh: () {
                           return controller.fetchVideos();
                         },
@@ -68,8 +76,8 @@ class HomeView extends GetView<HomeController> {
                           },
                         ),
                       ),
+                    ),
                   ),
-                ),
       ),
     );
   }
