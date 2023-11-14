@@ -20,7 +20,7 @@ class InterstitialAdManager {
           onAdLoaded: (ad) {
             // Keep a reference to the ad so you can show it later.
             _interstitialAd = ad;
-            showInterstitialAd();
+            
           },
           // Called when an ad request failed.
           onAdFailedToLoad: (LoadAdError error) {

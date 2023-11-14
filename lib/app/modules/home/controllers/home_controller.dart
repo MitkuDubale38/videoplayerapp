@@ -7,10 +7,12 @@ import 'package:videoplayerapp/app/core/http_client/http_service.dart';
 import 'package:videoplayerapp/app/core/http_exeption_handler/http_exception_handler.dart';
 import 'package:videoplayerapp/app/data/videos/models/videos.dart';
 import 'package:videoplayerapp/app/modules/home/controllers/video_http_attribuites.dart';
+import 'package:videoplayerapp/app/utils/helper/ad_manager.dart';
 import 'package:videoplayerapp/app/utils/helper/connectivity_status.dart';
 import 'package:videoplayerapp/app/utils/helper/hex_color_helper.dart';
 import 'package:videoplayerapp/app/utils/keys.dart';
 
+InterstitialAdManager interstitialAdManager = InterstitialAdManager();
 class HomeController extends GetxController {
   Video? video;
   RxBool isLoading = false.obs;
@@ -22,6 +24,8 @@ class HomeController extends GetxController {
   void onInit() async {
     final internetConnectivity = InternetConnectivity();
     if (internetConnectivity.isConnected) {
+      //pre loading AD
+      interstitialAdManager.loadAd();
       fetchVideos();
     } else {
       fetchVideosFromCache();
@@ -69,8 +73,7 @@ class HomeController extends GetxController {
       if (cachedData != null) {
         video = Video.fromJson(cachedData);
         bgColor = HexColor(video!.appBackgroundHexColor);
-      }
-      else{
+      } else {
         isError.value = true;
       }
       isLoading.value = false;

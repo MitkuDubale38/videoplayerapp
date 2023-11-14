@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import 'package:video_player/video_player.dart';
-import 'package:videoplayerapp/app/utils/helper/ad_manager.dart';
+import 'package:videoplayerapp/app/modules/home/controllers/home_controller.dart';
 
 class PlayerController extends GetxController {
   late VideoPlayerController _controller;
@@ -12,14 +12,12 @@ class PlayerController extends GetxController {
   String videoUrl;
   PlayerController(this.videoUrl);
   VideoPlayerController get controller => _controller;
-  InterstitialAdManager interstitialAdManager = InterstitialAdManager();
 
   @override
   void onInit() {
     super.onInit();
-    //loading AD
-    interstitialAdManager.loadAd();
-
+    //showing AD
+    interstitialAdManager.showInterstitialAd();
     //initializing video player
     _initializeVideoPlayer().then((_) {
       update();
@@ -41,6 +39,8 @@ class PlayerController extends GetxController {
       fullScreenByDefault: true,
       overlay: IconButton(
         onPressed: () {
+          _controller.pause();
+          _controller.dispose();
           Get.offAndToNamed("/home");
         },
         icon: Icon(
