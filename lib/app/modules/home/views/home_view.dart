@@ -33,6 +33,7 @@ class HomeView extends GetView<HomeController> {
         body: controller.isLoading.value == true
             ? const Center(
                 child: CircularProgressIndicator(),
+                
               )
             : controller.isError.value == true
                 ? CustomErrorWidget(
@@ -41,28 +42,34 @@ class HomeView extends GetView<HomeController> {
                       return controller.fetchVideos();
                     },
                   )
-                : RefreshIndicator(
-                    onRefresh: () {
-                      return controller.fetchVideos();
-                    },
-                    child: OrientationBuilder(
-                      builder: (context, orientation) {
-                        if (orientation == Orientation.portrait) {
-                          return ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            itemCount: controller.video?.videos.length,
-                            itemBuilder: (context, index) {
-                              final video = controller.video?.videos[index];
-                              return VideoCard(video: video);
-                            },
-                          );
-                        } else {
-                          return Container();
-                        }
-                      },
-                    ),
+                : Card(
+                  color:Color.fromARGB(255, 247, 247, 247),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: RefreshIndicator(
+                        onRefresh: () {
+                          return controller.fetchVideos();
+                        },
+                        child: OrientationBuilder(
+                          builder: (context, orientation) {
+                            if (orientation == Orientation.portrait) {
+                              return ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                shrinkWrap: true,
+                                itemCount: controller.video?.videos.length,
+                                itemBuilder: (context, index) {
+                                  final video = controller.video?.videos[index];
+                                  return VideoCard(video: video);
+                                },
+                              );
+                            } else {
+                              return Container();
+                            }
+                          },
+                        ),
+                      ),
                   ),
+                ),
       ),
     );
   }

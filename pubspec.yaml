@@ -22,11 +22,15 @@ dependencies:
   shimmer: ^3.0.0
   google_mobile_ads: ^3.1.0
   chewie: ^1.7.1
-  # share_plus: ^7.2.1
   flutter_native_splash: ^2.3.5
+  share_plus: ^7.0.2
 
 flutter_native_splash:
   color: "#3A4C72"
+  image: assets/images/splash.png
+  android_12:
+    color: "#3A4C72"
+    image: assets/images/splash.png
 
 dev_dependencies: 
   flutter_lints: ^2.0.0
@@ -35,4 +39,6 @@ dev_dependencies:
 
 flutter: 
   uses-material-design: true
-
+  assets:
+    - assets/images/
+  
