@@ -1,5 +1,6 @@
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:videoplayerapp/app/modules/home/views/widgets/video_card.dart';
 import 'package:videoplayerapp/app/utils/colors.dart';
@@ -11,6 +12,11 @@ class HomeView extends GetView<HomeController> {
   const HomeView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    //setting only in portrait mode
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return Obx(
       () => Scaffold(
         backgroundColor: controller.isLoading.value == true ||
@@ -58,21 +64,13 @@ class HomeView extends GetView<HomeController> {
                         onRefresh: () {
                           return controller.fetchVideos();
                         },
-                        child: OrientationBuilder(
-                          builder: (context, orientation) {
-                            if (orientation == Orientation.portrait) {
-                              return ListView.builder(
-                                scrollDirection: Axis.vertical,
-                                shrinkWrap: true,
-                                itemCount: controller.video?.videos.length,
-                                itemBuilder: (context, index) {
-                                  final video = controller.video?.videos[index];
-                                  return VideoCard(video: video);
-                                },
-                              );
-                            } else {
-                              return Container();
-                            }
+                        child: ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: controller.video?.videos.length,
+                          itemBuilder: (context, index) {
+                            final video = controller.video?.videos[index];
+                            return VideoCard(video: video);
                           },
                         ),
                       ),

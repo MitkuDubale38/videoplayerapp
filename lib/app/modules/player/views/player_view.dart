@@ -24,21 +24,21 @@ class PlayerView extends GetView<PlayerController> {
               Chewie(
                 controller: controller.chewieController,
               ),
-              Positioned(
-                top: 5,
-                left: 10,
-                child: IconButton(
-                  onPressed: () {
-                    Get.back();
-                    controller.setPortraitMode();
-                  },
-                  icon: Icon(
-                    Icons.chevron_left_rounded,
-                    color: Colors.white,
-                    size: 30.sp,
-                  ),
-                ),
-              )
+              // Positioned(
+              //   top: 5,
+              //   left: 10,
+              //   child: IconButton(
+              //     onPressed: () {
+              //       Get.back();
+              //       controller.setPortraitMode();
+              //     },
+              //     icon: Icon(
+              //       Icons.chevron_left_rounded,
+              //       color: Colors.white,
+              //       size: 30.sp,
+              //     ),
+              //   ),
+              // )
             ],
           ),
         );
