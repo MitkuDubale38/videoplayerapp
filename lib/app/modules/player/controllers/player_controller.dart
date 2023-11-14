@@ -7,6 +7,7 @@ class PlayerController extends GetxController {
   late ChewieController chewieController;
   String videoUrl = "";
   VideoPlayerController get controller => _controller;
+  
 
   @override
   void onInit() {
@@ -39,3 +40,5 @@ class PlayerController extends GetxController {
     super.onClose();
   }
 }
+
+//
