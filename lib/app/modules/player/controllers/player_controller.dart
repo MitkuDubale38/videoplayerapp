@@ -6,36 +6,37 @@ import 'package:videoplayerapp/app/utils/helper/ad_manager.dart';
 class PlayerController extends GetxController {
   late VideoPlayerController _controller;
   late ChewieController chewieController;
-  String videoUrl = "";
+  String videoUrl;
+  PlayerController(this.videoUrl);
   VideoPlayerController get controller => _controller;
-  InterstitialAdManager _interstitialAdManager = InterstitialAdManager();
+  InterstitialAdManager interstitialAdManager = InterstitialAdManager();
 
   @override
   void onInit() {
     super.onInit();
-    //
-    _interstitialAdManager.loadInterstitialAd();
-    // Load the interstitial ad when the video player starts
-    _interstitialAdManager.showInterstitialAd();
-    
+     //loading AD
+    interstitialAdManager.loadAd();
+
+    //initializing video player
     _initializeVideoPlayer().then((_) {
       update();
     });
   }
 
+  //initializing video player
   Future<void> _initializeVideoPlayer() async {
     _controller = VideoPlayerController.networkUrl(
-      Uri.parse("https://app.et/devtest/videos/video1.mp4"),
+      Uri.parse(videoUrl),
     );
-    // await _controller.initialize();
     chewieController = ChewieController(
       videoPlayerController: _controller,
       aspectRatio: 16 / 9,
       autoInitialize: true,
-      autoPlay: true,
+      autoPlay: false,
       looping: true,
       allowFullScreen: true,
       fullScreenByDefault: true,
+      
     );
   }
 
@@ -45,4 +46,5 @@ class PlayerController extends GetxController {
     chewieController.dispose();
     super.onClose();
   }
+
 }

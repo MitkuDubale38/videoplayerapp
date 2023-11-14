@@ -1,37 +1,49 @@
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'dart:io';
 
-class InterstitialAdManager extends AdWithViewListener {
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:videoplayerapp/app/utils/keys.dart';
+
+class InterstitialAdManager {
   InterstitialAd? _interstitialAd;
 
-  void loadInterstitialAd() {
+  final adUnitId = Platform.isAndroid
+      ? Keys.adAndroidKey
+      : Keys.adIosKey;
+
+  // Loads an interstitial ad.
+  void loadAd() {
     InterstitialAd.load(
-      adUnitId: 'YOUR_AD_UNIT_ID',
-      request: AdRequest(),
-      adLoadCallback: InterstitialAdLoadCallback(
-        onAdLoaded: (ad) {
-          _interstitialAd = ad;
-          _interstitialAd!.fullScreenContentCallback = this as FullScreenContentCallback<InterstitialAd>?;
-        },
-        onAdFailedToLoad: (error) {
-          print('InterstitialAd failed to load: $error');
-        },
-      ),
-    );
+        adUnitId: adUnitId,
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          // Called when an ad is successfully received.
+          onAdLoaded: (ad) {
+            // Keep a reference to the ad so you can show it later.
+            _interstitialAd = ad;
+            showInterstitialAd();
+          },
+          // Called when an ad request failed.
+          onAdFailedToLoad: (LoadAdError error) {
+            print('InterstitialAd failed to load: $error');
+          },
+        ));
   }
 
   void showInterstitialAd() {
-    if (_interstitialAd != null) {
-      _interstitialAd!.show();
-    } else {
-      print('InterstitialAd not available');
+    if (_interstitialAd == null) {
+      return;
     }
+    _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+      onAdDismissedFullScreenContent: (InterstitialAd ad) {
+        ad.dispose();
+        // loadAd();
+      },
+      onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
+        ad.dispose();
+        // loadAd();
+      },
+    );
+    _interstitialAd!.show();
+    _interstitialAd = null;
   }
-
-  @override
-  void onInterstitialAdClosed(InterstitialAd ad) {
-    ad.dispose();
-    loadInterstitialAd();
-  }
-
-  // Implement other callback methods if needed
 }

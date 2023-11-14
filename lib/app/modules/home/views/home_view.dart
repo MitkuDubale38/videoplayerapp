@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:videoplayerapp/app/modules/home/views/widgets/video_card.dart';
 import 'package:videoplayerapp/app/utils/colors.dart';
+import 'package:videoplayerapp/app/utils/helper/share.dart';
 import 'package:videoplayerapp/app/utils/shared_widgets/error_widget.dart';
 import '../controllers/home_controller.dart';
 
@@ -21,7 +22,12 @@ class HomeView extends GetView<HomeController> {
           title: const Text('Vamos Videos'),
           actions: [
             IconButton(onPressed: () {}, icon: const Icon(Icons.star_outline)),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.share)),
+            IconButton(
+              onPressed: () {
+                share();
+              },
+              icon: const Icon(Icons.share),
+            ),
           ],
         ),
         body: controller.isLoading.value == true

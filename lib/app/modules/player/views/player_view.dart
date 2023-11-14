@@ -1,22 +1,14 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:videoplayerapp/app/data/videos/models/video_element.dart';
+import 'package:sizer/sizer.dart';
 import '../controllers/player_controller.dart';
 
 // ignore: must_be_immutable
 class PlayerView extends GetView<PlayerController> {
-  PlayerView({Key? key}) : super(key: key);
-  Map<String, dynamic> arguments = Get.arguments;
-   
-    
-
+  const PlayerView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    //setting video url
-    VideoElement video = arguments['video'];
-    controller.videoUrl = video.videoUrl;
-   
     return Scaffold(
       body: Stack(
         children: [
@@ -30,9 +22,10 @@ class PlayerView extends GetView<PlayerController> {
               onPressed: () {
                 Get.back();
               },
-              icon: const Icon(
+              icon: Icon(
                 Icons.chevron_left_rounded,
                 color: Colors.white,
+                size: 30.sp,
               ),
             ),
           )
